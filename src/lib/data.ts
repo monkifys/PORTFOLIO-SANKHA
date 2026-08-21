@@ -25,6 +25,7 @@ export const achievements = [
     organization: "National Space Society / ISRO Outreach",
     tag: "AIR 1 Winner",
     image: "/images/achievements/space-hackathon.png",
+    certificatePdf: "/certificates/national-space-hackathon-2025.pdf",
     featured: true,
   },
   {
@@ -36,6 +37,7 @@ export const achievements = [
     organization: "IIT / Ministry of Education, Govt. of India",
     tag: "GATE Qualified",
     image: "/images/achievements/gate-2026.png",
+    certificatePdf: "/certificates/gate-2026-scorecard.pdf",
     featured: true,
   },
   {
@@ -47,6 +49,7 @@ export const achievements = [
     organization: "Ministry of Education & AICTE",
     tag: "Grand Finalist",
     image: "/images/achievements/sih-2024.png",
+    certificatePdf: "/certificates/smart-india-hackathon-2024.pdf",
     featured: true,
   },
   {
@@ -57,7 +60,8 @@ export const achievements = [
     description: "Awarded Elite certification by IIT Madras for exceptional performance and problem-solving mastery in computational programming.",
     organization: "IIT Madras & NPTEL",
     tag: "Elite IIT Madras",
-    image: "/images/achievements/nptel.png",
+    image: null,
+    certificatePdf: null,
     featured: false,
   },
 ];

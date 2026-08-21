@@ -2,12 +2,28 @@
 import { achievements } from "@/lib/data";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useTheme } from "@/lib/theme-provider";
-import { Trophy, Award, Sparkles, Star, CheckCircle, ZoomIn, X, ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
-import Image from "next/image";
+import {
+  Trophy,
+  Award,
+  Sparkles,
+  Star,
+  CheckCircle,
+  ZoomIn,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  FileText,
+} from "lucide-react";
 
 export const Achievements = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState<{ url: string; title: string; award: string } | null>(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<{
+    url: string;
+    title: string;
+    award: string;
+    pdf?: string | null;
+  } | null>(null);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState<number>(0);
   const [imageErrorMap, setImageErrorMap] = useState<Record<number, boolean>>({});
   const sectionRef = useRef<HTMLElement>(null);
@@ -47,10 +63,17 @@ export const Achievements = () => {
     }
   };
 
+  const photoAchievements = achievements.filter((a) => a.image && !imageErrorMap[a.id]);
+
   const openLightbox = (index: number) => {
     const item = achievements[index];
     if (item && item.image && !imageErrorMap[item.id]) {
-      setSelectedPhoto({ url: item.image, title: item.title, award: item.award });
+      setSelectedPhoto({
+        url: item.image,
+        title: item.title,
+        award: item.award,
+        pdf: item.certificatePdf,
+      });
       setCurrentPhotoIndex(index);
       document.body.style.overflow = "hidden";
     }
@@ -62,20 +85,44 @@ export const Achievements = () => {
   };
 
   const nextPhoto = useCallback(() => {
-    const validAchievements = achievements.filter((a) => a.image && !imageErrorMap[a.id]);
-    if (validAchievements.length === 0) return;
-    const nextIdx = (currentPhotoIndex + 1) % achievements.length;
+    if (photoAchievements.length === 0) return;
+    const photoIndices = achievements
+      .map((a, idx) => (a.image && !imageErrorMap[a.id] ? idx : null))
+      .filter((idx): idx is number => idx !== null);
+
+    const currentPos = photoIndices.indexOf(currentPhotoIndex);
+    const nextPos = (currentPos + 1) % photoIndices.length;
+    const nextIdx = photoIndices[nextPos];
     const nextItem = achievements[nextIdx];
-    setSelectedPhoto({ url: nextItem.image || "", title: nextItem.title, award: nextItem.award });
+
+    setSelectedPhoto({
+      url: nextItem.image || "",
+      title: nextItem.title,
+      award: nextItem.award,
+      pdf: nextItem.certificatePdf,
+    });
     setCurrentPhotoIndex(nextIdx);
-  }, [currentPhotoIndex, imageErrorMap]);
+  }, [currentPhotoIndex, imageErrorMap, photoAchievements.length]);
 
   const prevPhoto = useCallback(() => {
-    const nextIdx = (currentPhotoIndex - 1 + achievements.length) % achievements.length;
-    const prevItem = achievements[nextIdx];
-    setSelectedPhoto({ url: prevItem.image || "", title: prevItem.title, award: prevItem.award });
-    setCurrentPhotoIndex(nextIdx);
-  }, [currentPhotoIndex]);
+    if (photoAchievements.length === 0) return;
+    const photoIndices = achievements
+      .map((a, idx) => (a.image && !imageErrorMap[a.id] ? idx : null))
+      .filter((idx): idx is number => idx !== null);
+
+    const currentPos = photoIndices.indexOf(currentPhotoIndex);
+    const prevPos = (currentPos - 1 + photoIndices.length) % photoIndices.length;
+    const prevIdx = photoIndices[prevPos];
+    const prevItem = achievements[prevIdx];
+
+    setSelectedPhoto({
+      url: prevItem.image || "",
+      title: prevItem.title,
+      award: prevItem.award,
+      pdf: prevItem.certificatePdf,
+    });
+    setCurrentPhotoIndex(prevIdx);
+  }, [currentPhotoIndex, imageErrorMap, photoAchievements.length]);
 
   useEffect(() => {
     if (!selectedPhoto) return;
@@ -118,7 +165,7 @@ export const Achievements = () => {
               isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            National hackathon championships, competitive exam qualifications, and academic honors
+            National hackathon championships, competitive exam qualifications, and verified certificates
           </p>
         </div>
 
@@ -126,7 +173,7 @@ export const Achievements = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {achievements.map((item, index) => {
             const Icon = getIcon(item.id);
-            const hasValidImage = item.image && !imageErrorMap[item.id];
+            const hasImage = item.image && !imageErrorMap[item.id];
 
             return (
               <div
@@ -166,25 +213,50 @@ export const Achievements = () => {
                   }}
                 />
 
-                {/* Card Content Top */}
-                <div className="p-6 md:p-7 relative z-10 flex-1 flex flex-col">
+                {/* Certificate Preview Image if available */}
+                {hasImage && (
+                  <div
+                    className="relative w-full h-40 overflow-hidden bg-foreground/5 cursor-pointer group/thumb border-b border-foreground/10"
+                    onClick={() => openLightbox(index)}
+                  >
+                    <img
+                      src={item.image || ""}
+                      alt={item.title}
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover/thumb:scale-105"
+                      onError={() => {
+                        setImageErrorMap((prev) => ({ ...prev, [item.id]: true }));
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/30 group-hover/thumb:bg-black/50 transition-colors flex items-center justify-center">
+                      <div
+                        className="px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-medium flex items-center gap-1.5 opacity-90 group-hover/thumb:opacity-100 group-hover/thumb:scale-105 transition-all shadow-lg border border-white/20"
+                      >
+                        <ZoomIn size={13} style={{ color: accentColor }} />
+                        <span>Preview Certificate</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Card Content */}
+                <div className="p-6 relative z-10 flex-1 flex flex-col">
                   {/* Header with Icon and Tag */}
-                  <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center justify-between mb-4">
                     <div
-                      className="p-3 rounded-2xl border transition-all duration-300"
+                      className="p-2.5 rounded-2xl border transition-all duration-300"
                       style={{
                         backgroundColor: `rgba(${accentRgb}, 0.1)`,
                         borderColor: `rgba(${accentRgb}, 0.25)`,
                       }}
                     >
                       <Icon
-                        size={22}
+                        size={20}
                         style={{ color: accentColor }}
                         className="group-hover:scale-110 transition-transform duration-300"
                       />
                     </div>
                     <span
-                      className="text-[11px] font-bold px-3 py-1 rounded-full border uppercase tracking-wider"
+                      className="text-[10px] font-bold px-2.5 py-1 rounded-full border uppercase tracking-wider"
                       style={{
                         backgroundColor: `rgba(${accentRgb}, 0.12)`,
                         borderColor: `rgba(${accentRgb}, 0.3)`,
@@ -198,17 +270,17 @@ export const Achievements = () => {
 
                   {/* Title and Award */}
                   <h3
-                    className="text-base md:text-lg font-bold mb-1.5 transition-colors duration-300 leading-tight"
+                    className="text-base font-bold mb-1.5 transition-colors duration-300 leading-tight"
                     style={{ ["--accent" as string]: accentColor }}
                   >
                     <span className="group-hover:text-(--accent)">{item.title}</span>
                   </h3>
 
                   <p
-                    className="text-xs md:text-sm font-semibold mb-3 flex items-center gap-1.5"
+                    className="text-xs font-semibold mb-2.5 flex items-center gap-1.5"
                     style={{ color: accentColor }}
                   >
-                    <Star size={13} className="fill-current shrink-0" />
+                    <Star size={12} className="fill-current shrink-0" />
                     {item.award}
                   </p>
 
@@ -217,29 +289,37 @@ export const Achievements = () => {
                     {item.description}
                   </p>
 
-                  {/* Photo / Certificate preview trigger */}
-                  {item.image && (
-                    <div
-                      onClick={() => openLightbox(index)}
-                      className="mt-auto pt-3 flex items-center justify-between p-2.5 rounded-2xl border border-foreground/10 bg-foreground/5 hover:bg-foreground/10 transition-all duration-300 cursor-pointer group/photo"
-                      style={{
-                        borderColor: `rgba(${accentRgb}, 0.2)`,
-                      }}
-                    >
-                      <div className="flex items-center gap-2 text-xs">
-                        <ImageIcon size={15} style={{ color: accentColor }} />
-                        <span className="text-[11px] text-foreground/70 font-medium group-hover/photo:text-foreground">
-                          View Certificate / Photo
-                        </span>
-                      </div>
-                      <ZoomIn size={14} style={{ color: accentColor }} className="group-hover/photo:scale-125 transition-transform" />
+                  {/* PDF Link Button if available */}
+                  {item.certificatePdf && (
+                    <div className="mt-auto pt-2">
+                      <a
+                        href={item.certificatePdf}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-foreground/15 text-xs font-medium hover:border-foreground/30 transition-all duration-300"
+                        style={{
+                          backgroundColor: `rgba(${accentRgb}, 0.05)`,
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = `rgba(${accentRgb}, 0.15)`;
+                          e.currentTarget.style.borderColor = accentColor;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = `rgba(${accentRgb}, 0.05)`;
+                          e.currentTarget.style.borderColor = "";
+                        }}
+                      >
+                        <FileText size={14} style={{ color: accentColor }} />
+                        <span className="text-[11px]">View Official PDF</span>
+                        <ExternalLink size={12} className="text-foreground/40" />
+                      </a>
                     </div>
                   )}
                 </div>
 
                 {/* Footer details */}
                 <div
-                  className="relative z-10 px-6 py-3.5 border-t flex items-center justify-between text-[11px] text-foreground/40 bg-foreground/[0.01]"
+                  className="relative z-10 px-6 py-3 border-t flex items-center justify-between text-[11px] text-foreground/40 bg-foreground/[0.01]"
                   style={{ borderColor: `rgba(${accentRgb}, 0.1)` }}
                 >
                   <span className="truncate max-w-[70%]">{item.organization}</span>
@@ -261,14 +341,14 @@ export const Achievements = () => {
           <button
             onClick={closeLightbox}
             className="absolute top-6 right-6 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 z-50 cursor-pointer"
-            aria-label="Close photo modal"
+            aria-label="Close certificate modal"
           >
             <X size={24} />
           </button>
 
           {/* Photo Info Banner */}
           <div
-            className="absolute top-6 left-6 max-w-md px-4 py-2 rounded-2xl z-50"
+            className="absolute top-6 left-6 max-w-md px-4 py-2.5 rounded-2xl z-50 flex flex-col gap-1"
             style={{
               backgroundColor: `rgba(${accentRgb}, 0.15)`,
               borderColor: `rgba(${accentRgb}, 0.3)`,
@@ -276,7 +356,24 @@ export const Achievements = () => {
             }}
           >
             <p className="text-xs font-bold text-white leading-tight">{selectedPhoto.title}</p>
-            <p className="text-[11px]" style={{ color: accentColor }}>{selectedPhoto.award}</p>
+            <div className="flex items-center gap-3">
+              <span className="text-[11px]" style={{ color: accentColor }}>
+                {selectedPhoto.award}
+              </span>
+              {selectedPhoto.pdf && (
+                <a
+                  href={selectedPhoto.pdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] underline text-white hover:text-white/80"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FileText size={12} />
+                  <span>Open PDF</span>
+                  <ExternalLink size={10} />
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Image Container */}
@@ -287,29 +384,38 @@ export const Achievements = () => {
             <img
               src={selectedPhoto.url}
               alt={selectedPhoto.title}
-              className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl bg-white/5 border border-white/10"
+              className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl bg-white border border-white/20"
               onError={() => {
-                setImageErrorMap((prev) => ({ ...prev, [currentPhotoIndex + 1]: true }));
                 closeLightbox();
               }}
             />
           </div>
 
           {/* Navigation Controls */}
-          <button
-            onClick={(e) => { e.stopPropagation(); prevPhoto(); }}
-            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer"
-            aria-label="Previous photo"
-          >
-            <ChevronLeft size={28} />
-          </button>
-          <button
-            onClick={(e) => { e.stopPropagation(); nextPhoto(); }}
-            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer"
-            aria-label="Next photo"
-          >
-            <ChevronRight size={28} />
-          </button>
+          {photoAchievements.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevPhoto();
+                }}
+                className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                aria-label="Previous certificate"
+              >
+                <ChevronLeft size={28} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextPhoto();
+                }}
+                className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 text-white hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                aria-label="Next certificate"
+              >
+                <ChevronRight size={28} />
+              </button>
+            </>
+          )}
         </div>
       )}
     </>
