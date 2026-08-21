@@ -15,6 +15,39 @@ export const experiences = [
   },
 ];
 
+export const achievements = [
+  {
+    id: 1,
+    title: "National Space Hackathon 2025",
+    award: "Winner (AIR 1)",
+    year: "2025",
+    description: "Secured All India Rank 1 in the National Space Hackathon for designing and building an innovative space tech solution.",
+    organization: "National Space Society / ISRO Outreach",
+    tag: "AIR 1 Winner",
+    featured: true,
+  },
+  {
+    id: 2,
+    title: "Smart India Hackathon 2024",
+    award: "Grand Finalist",
+    year: "2024",
+    description: "Selected as a Grand Finalist in the world's largest open innovation model organized by MoE & AICTE, Govt. of India.",
+    organization: "Ministry of Education & AICTE",
+    tag: "Grand Finalist",
+    featured: true,
+  },
+  {
+    id: 3,
+    title: "NPTEL — The Joy of Computing Using Python",
+    award: "Elite Certification",
+    year: "2023",
+    description: "Awarded Elite certification by IIT Madras for exceptional performance and problem-solving mastery in computational programming.",
+    organization: "IIT Madras & NPTEL",
+    tag: "Elite IIT Madras",
+    featured: false,
+  },
+];
+
 export const projects = [
   {
     id: 1,

@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useTheme } from "@/lib/theme-provider";
 import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
 
-const navItems = ["About", "Experience", "Patents", "Projects", "Contact"];
+const navItems = ["About", "Experience", "Achievements", "Patents", "Projects", "Contact"];
 
 export const Navbar = () => {
   const [active, setActive] = useState("home");
@@ -70,7 +70,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-6 w-full max-w-xs md:max-w-2xl lg:max-w-3xl z-50 px-4">
+    <nav className="fixed top-6 w-full max-w-xs md:max-w-3xl lg:max-w-4xl z-50 px-4">
       <div
         className="px-4 py-2 md:px-6 md:py-4 flex justify-between backdrop-blur-md items-center border rounded-full transition-all duration-500"
         style={{

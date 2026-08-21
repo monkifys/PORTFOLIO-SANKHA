@@ -7,6 +7,8 @@ const quickLinks = [
   { href: "#home", label: "HOME" },
   { href: "#about", label: "ABOUT" },
   { href: "#experience", label: "EXPERIENCE" },
+  { href: "#achievements", label: "ACHIEVEMENTS" },
+  { href: "#patents", label: "PATENTS" },
   { href: "#projects", label: "PROJECTS" },
   { href: "#contact", label: "CONTACT" },
 ];
