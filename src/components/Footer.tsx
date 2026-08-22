@@ -14,9 +14,9 @@ const quickLinks = [
 ];
 
 const socials = [
-  { icon: Github, label: "Github", url: "https://github.com/sankha-singhamahapatra" },
-  { icon: Linkedin, label: "LinkedIn", url: "https://linkedin.com/in/sankha-singhamahapatra" },
-  { icon: SiX, label: "X", url: "https://x.com/sankha_sm" },
+  { icon: Github, label: "Github", url: "https://github.com/monkifys" },
+  { icon: Linkedin, label: "LinkedIn", url: "https://www.linkedin.com/in/sankha-singhamahapatra-b2790121b/" },
+  { icon: SiX, label: "X", url: "https://x.com/SankhaMahapatr5" },
   { icon: Mail, label: "Mail", url: "mailto:mahapatrasankha8@gmail.com" },
 ];
 

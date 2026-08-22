@@ -7,9 +7,9 @@ import { LiquidButton } from "./LiquidButton";
 import { useTheme } from "@/lib/theme-provider";
 
 const socials = [
-  { url: "https://github.com/sankha-singhamahapatra", label: "Github", icon: Github },
-  { url: "https://linkedin.com/in/sankha-singhamahapatra", label: "LinkedIn", icon: Linkedin },
-  { url: "https://x.com/sankha_sm", label: "X", icon: SiX },
+  { url: "https://github.com/monkifys", label: "Github", icon: Github },
+  { url: "https://www.linkedin.com/in/sankha-singhamahapatra-b2790121b/", label: "LinkedIn", icon: Linkedin },
+  { url: "https://x.com/SankhaMahapatr5", label: "X", icon: SiX },
   { url: "mailto:mahapatrasankha8@gmail.com", label: "Mail", icon: Mail },
 ];
 

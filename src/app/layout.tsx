@@ -53,8 +53,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@sankha_sm",
-    creator: "@sankha_sm",
+    site: "@SankhaMahapatr5",
+    creator: "@SankhaMahapatr5",
     title: "Sankha Singhamahapatra - ECE Undergraduate | Researcher | Developer",
     description: "Electronics & Communication Engineering undergraduate. Experienced in AI/ML, IoT, and research. Winner of National Space Hackathon 2025.",
     images: ["https://sankha-singhamahapatra.vercel.app/logo.png"],
@@ -73,9 +73,9 @@ const structuredData = {
   url: "https://sankha-singhamahapatra.vercel.app",
   image: "https://sankha-singhamahapatra.vercel.app/logo.png",
   sameAs: [
-    "https://github.com/sankha-singhamahapatra",
-    "https://linkedin.com/in/sankha-singhamahapatra",
-    "https://x.com/sankha_sm",
+    "https://github.com/monkifys",
+    "https://www.linkedin.com/in/sankha-singhamahapatra-b2790121b/",
+    "https://x.com/SankhaMahapatr5",
   ],
   address: {
     "@type": "PostalAddress",
