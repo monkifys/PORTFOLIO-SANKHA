@@ -87,6 +87,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           src={project.image}
           alt={project.title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className={`${isMobileApp ? 'object-contain p-2' : 'object-cover'} group-hover:scale-110 transition-transform duration-700`}
         />
       </div>
