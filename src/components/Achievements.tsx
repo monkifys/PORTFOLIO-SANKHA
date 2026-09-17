@@ -14,6 +14,7 @@ import {
   ChevronRight,
   ExternalLink,
   FileText,
+  ShieldCheck,
 } from "lucide-react";
 
 export const Achievements = () => {
@@ -55,8 +56,10 @@ export const Achievements = () => {
       case 1:
         return Trophy;
       case 2:
-        return CheckCircle;
+        return ShieldCheck;
       case 3:
+        return CheckCircle;
+      case 4:
         return Award;
       default:
         return Sparkles;
@@ -170,7 +173,7 @@ export const Achievements = () => {
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {achievements.map((item, index) => {
             const Icon = getIcon(item.id);
             const hasImage = item.image && !imageErrorMap[item.id];

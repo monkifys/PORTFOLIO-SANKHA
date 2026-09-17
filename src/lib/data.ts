@@ -30,6 +30,18 @@ export const achievements = [
   },
   {
     id: 2,
+    title: "AFCAT 02/2026",
+    award: "Qualified (Shortlisted for AFSB)",
+    year: "2026",
+    description: "Qualified AFCAT 02/2026 via GATE Entry (Score: 442) and shortlisted for Air Force Selection Board (AFSB) testing for Technical Branch [AE(L)].",
+    organization: "Indian Air Force (IAF)",
+    tag: "AFCAT Qualified",
+    image: "/images/achievements/afcat-2026.png",
+    certificatePdf: null,
+    featured: true,
+  },
+  {
+    id: 3,
     title: "GATE 2026 (ECE)",
     award: "Qualified",
     year: "2026",
@@ -41,7 +53,7 @@ export const achievements = [
     featured: true,
   },
   {
-    id: 3,
+    id: 4,
     title: "Smart India Hackathon 2024",
     award: "Grand Finalist",
     year: "2024",
@@ -53,7 +65,7 @@ export const achievements = [
     featured: true,
   },
   {
-    id: 4,
+    id: 5,
     title: "NPTEL — The Joy of Computing Using Python",
     award: "Elite Certification",
     year: "2023",
