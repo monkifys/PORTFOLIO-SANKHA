@@ -59,7 +59,7 @@ interface ProjectCardProps {
     tech: string[];
     github?: string | null;
     demo?: string | null;
-    category?: string;
+    category?: string | string[];
   };
 }
 
@@ -67,7 +67,9 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
   const { theme } = useTheme();
   const accentColor = theme === "dark" ? "#00ff88" : "#FFB800";
   const accentRgb = theme === "dark" ? "0, 255, 136" : "255, 184, 0";
-  const isMobileApp = project.category === "Mobile App";
+  const isMobileApp = Array.isArray(project.category)
+    ? project.category.includes("Mobile App")
+    : project.category === "Mobile App";
 
   return (
     <div

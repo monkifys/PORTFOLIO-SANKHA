@@ -2,11 +2,15 @@ import { ThemeProvider } from "@/lib/theme-provider";
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { BottomNav } from "@/components/BottomNav";
+import { Preloader } from "@/components/Preloader";
+import { ScrollProgress } from "@/components/ScrollProgress";
+import { MouseSpotlight } from "@/components/MouseSpotlight";
+import { CustomCursor } from "@/components/CustomCursor";
+import { BackToTop } from "@/components/BackToTop";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 const geistMono = Geist_Mono({
@@ -106,11 +110,13 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <ThemeProvider>
-          <div className="flex justify-center">
-            <Navbar />
-          </div>
+          <Preloader />
+          <ScrollProgress />
+          <MouseSpotlight />
+          <CustomCursor />
           {children}
-          <Footer />
+          <BottomNav />
+          <BackToTop />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
