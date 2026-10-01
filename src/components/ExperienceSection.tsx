@@ -11,6 +11,8 @@ import { SectionHeading } from "./ui/SectionHeading";
 
 const typeColors: Record<string, string> = {
    Internship: "#60a5fa",
+   "Research Internship": "#818cf8",
+   Research: "#818cf8",
    "Full-time": "#34d399",
    "Part-time": "#fbbf24",
    Freelance: "#a78bfa",
@@ -24,7 +26,7 @@ export function ExperienceSection() {
 
    return (
       <Container size="narrow" className="py-[12vw] md:py-20">
-         <SectionHeading number="01" title="Experience" />
+         <SectionHeading number="05" title="Experience" />
 
          <div className="relative">
             <div className="absolute left-3.5 md:left-4.75 top-0 bottom-0 w-px bg-border-primary" />
@@ -32,8 +34,8 @@ export function ExperienceSection() {
             <div className="space-y-[5vw] md:space-y-8">
                {experiences.map((exp, index) => {
                   const isExpanded = expandedIndex === index;
-                  const expType = (exp as { type?: string }).type || (index === 0 ? "Internship" : "Campus Role");
-                  const typeColor = typeColors[expType] || "#a78bfa";
+                  const expType = (exp as { type?: string }).type || "Internship";
+                  const typeColor = typeColors[expType] || "#818cf8";
 
                   return (
                      <motion.div

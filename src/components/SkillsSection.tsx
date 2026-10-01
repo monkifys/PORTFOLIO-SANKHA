@@ -99,7 +99,7 @@ function SkillBadge({ tech }: { tech: (typeof technologies)[number] }) {
 export function SkillsSection() {
    return (
       <Container className="py-[12vw] md:py-20">
-         <SectionHeading number="04" title="Skills & Expertise" />
+         <SectionHeading number="06" title="Skills & Expertise" />
 
          <p className="mb-[12vw] md:mb-16 max-w-2xl text-[4vw] md:text-xl leading-relaxed text-fg-secondary">
             The tools I reach for when building — grouped by where they sit in

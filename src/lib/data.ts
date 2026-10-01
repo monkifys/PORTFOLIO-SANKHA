@@ -1,5 +1,13 @@
 export const experiences = [
   {
+    title: "Research Intern",
+    company: "Indian Institute of Technology Kharagpur (IIT Kharagpur) · Centre of Excellence in Affordable Healthcare (CoE-AH)",
+    duration: "28.09.2026 - Present",
+    type: "Research Internship",
+    description: `Working at the Centre of Excellence in Affordable Healthcare (CoE-AH), IIT Kharagpur on the research project "Unified Cross-Modal Bio-Signal Kinematics and Quantum Machine Learning for Cardiopulmonary Auscultation Detection Using Smartphone". Developing cross-modal bio-signal processing pipelines and exploring quantum machine learning algorithms for accessible, smartphone-based cardiopulmonary diagnostics.`,
+    image: "/projects/iitkgp.png",
+  },
+  {
     title: "Project Intern",
     company: "Variable Energy Cyclotron Centre (VECC), Department of Atomic Energy, Govt. of India",
     duration: "2024 - 2025",
